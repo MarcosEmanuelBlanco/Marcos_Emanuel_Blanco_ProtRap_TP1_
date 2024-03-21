@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Comida
   - Obstaculo
+  - Veneno
   layers:
   - Default
   - TransparentFX

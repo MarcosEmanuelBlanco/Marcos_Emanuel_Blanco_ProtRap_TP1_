@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
@@ -47,6 +49,15 @@ public class Snake : MonoBehaviour
         if (collision.CompareTag("Comida"))
         {
             Crecer();
+        } else if (collision.CompareTag("Veneno")) 
+        {
+            if(partesSnake.Count > 1)
+            {
+                Decrecer();
+            }
+        } else if (collision.CompareTag("Obstaculo"))
+        {
+            Morir();
         }
     }
 
@@ -55,5 +66,23 @@ public class Snake : MonoBehaviour
         Transform parte = Instantiate(this.prefabParte);
         parte.position = partesSnake[partesSnake.Count - 1].position;
         partesSnake.Add(parte);
+    }
+
+    private void Decrecer()
+    {
+        Transform parte = partesSnake.Last();
+        partesSnake.Remove(parte);
+        Destroy(parte.gameObject);
+    }
+    private void Morir()
+    {
+        for (int i = 1; i < partesSnake.Count;i++)
+        {
+            Destroy(partesSnake[i].gameObject);
+        }
+        partesSnake.Clear();
+        partesSnake.Add(gameObject.transform);
+        direccion = Vector3.zero;
+        gameObject.transform.position = Vector3.zero;
     }
 }
